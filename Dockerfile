@@ -57,13 +57,13 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy package files first for caching
-COPY package.json ./
+#COPY package.json ./
 
 # Install npm dependencies
-RUN npm install
+#RUN npm install
 
 # Copy source code
-COPY . .
+#COPY . .
 
 # Expose ports
 EXPOSE 9966 8080
