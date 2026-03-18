@@ -1,0 +1,7 @@
+{
+    "name": "flamingo-docker",
+    "version": "0.1.0",
+    "type": "commonjs",
+    "description": "Docker environment for Flamingo - Bitcoin Lightning Network development setup",
+    "license": "MIT"
+}
