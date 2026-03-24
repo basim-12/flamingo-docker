@@ -3,27 +3,13 @@
     "app": {
       "build": { "context": "." },
       "volumes": [
-        {
-          "source": "../flamingo-node/data",
-          "target": "/data"
-        },
-        {
-          "source": "../flamingo-node",
-          "target": "/app"
-        },
-        {
-          "target": "/app/node_modules"
-        },
-        {
-          "source": "./env.docker.json",
-          "target": "/config/env.docker.json"
-        }
+        "${FLAMINGO_PATH}/data:/data",
+        "${FLAMINGO_PATH}:/app",
+        "/app/node_modules",
+        "./env.docker.json:/config/env.docker.json"
       ],
       "ports": [
-        {
-          "published": 8080,
-          "target": 8080
-        }
+        "8080:8080"
       ],
       "environment": {
         "ENV_FILE": "/config/env.docker.json"

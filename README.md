@@ -2,70 +2,39 @@
 
 Docker configuration for the [Flamingo Node](https://github.com/playproject-io/flamingo-node) backend.
 
-## Required Folder Structure
+## Setup
 
-This Docker setup uses **Bind Mounts** for instant code reloading. All repos must sit side-by-side:
+Clone this repo and [flamingo-node](https://github.com/playproject-io/flamingo-node) side by side:
+
+```bash
+git clone git@github.com:basim-12/flamingo-node.git
+git clone git@github.com:basim-12/flamingo-docker.git
+```
 
 ```text
 your-workspace/
   ├── flamingo-node/       ← Backend
-  ├── flamingo-ui/         ← Frontend
-  ├── flamingo-docker/     ← This repository
-  └── flamingo-wallet/     ← Orchestration & scenarios
+  └── flamingo-docker/     ← This repository (Docker config)
 ```
 
 ## Getting Started
 
-### Option A: Docker Compose (recommended for Docker users)
+### Option A: Docker Compose
 
-**Start:**
+Set `FLAMINGO_PATH` to point to your `flamingo-node` directory:
+
 ```bash
-docker compose up --build
+FLAMINGO_PATH=../flamingo-node docker compose up --build
 ```
 
-**Stop:**
+Stop:
 ```bash
-# Ctrl+C in the running terminal, or:
 docker compose down
 ```
 
-### Option B: Raw Docker Commands (no docker-compose needed)
+### Option B: Node.js CLI (no Docker knowledge needed)
 
-**Build:**
-```bash
-docker build -t flamingo-app .
-```
-
-**Start:**
-```bash
-docker run -d --name flamingo-app \
-  -v $(pwd)/../flamingo-node/data:/data \
-  -v $(pwd)/../flamingo-node:/app \
-  -v /app/node_modules \
-  -v $(pwd)/../flamingo-ui:/ui \
-  -v /ui/node_modules \
-  -v $(pwd)/env.docker.json:/config/env.docker.json \
-  -p 9966:9966 \
-  -p 8080:8080 \
-  -e ENV_FILE=/config/env.docker.json \
-  -e UI_MODE=start-legacy \
-  flamingo-app \
-  bash -c "cd /app && npm install && npm run cli start & cd /ui && npm install && npm run start-legacy & wait"
-```
-
-**Stop:**
-```bash
-docker stop flamingo-app && docker rm flamingo-app
-```
-
-**Logs:**
-```bash
-docker logs -f flamingo-app
-```
-
-### Option C: Node.js CLI (no Docker knowledge needed)
-
-If you have Node.js installed, you can use the `fw` CLI which handles Docker automatically:
+If you have Node.js installed, the `fw` CLI handles everything automatically — it resolves `FLAMINGO_PATH` dynamically, so no env var is needed:
 
 ```bash
 npm install -g flamingo-node
@@ -79,9 +48,15 @@ fw logs         # Tail container logs
 
 | Port | Service |
 |------|---------|
-| 9966 | Backend (Node.js) |
-| 8080 | Frontend (UI) |
+| 8080 | Backend WebSocket |
 
 ## Configuration
 
 Edit `env.docker.json` to customize paths, RPC credentials, and ports.
+
+## Related Repositories
+
+- [flamingo-node](https://github.com/playproject-io/flamingo-node) — Backend: bitcoind, lightningd, WebSocket bridge
+- [flamingo-docker](https://github.com/playproject-io/flamingo-docker) — Docker environment for the stack
+- [flamingo-wallet](https://github.com/playproject-io/flamingo-wallet) — Main entry point & orchestration
+- [flamingo-ui](https://github.com/playproject-io/flamingo-ui) — Reusable UI component library
