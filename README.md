@@ -1,10 +1,10 @@
 # Flamingo Docker Environment
 
-Docker configuration for the [Flamingo Node](https://github.com/playproject-io/flamingo-node) backend.
+Docker configuration for the [Flamingo Node](https://github.com/basim-12/flamingo-node) backend.
 
 ## Setup
 
-Clone this repo and [flamingo-node](https://github.com/playproject-io/flamingo-node) side by side:
+Clone this repo and [flamingo-node](https://github.com/basim-12/flamingo-node) side by side:
 
 ```bash
 git clone git@github.com:basim-12/flamingo-node.git
@@ -19,29 +19,15 @@ your-workspace/
 
 ## Getting Started
 
-### Option A: Docker Compose
-
-Set `FLAMINGO_PATH` to point to your `flamingo-node` directory:
+Set `FLAMINGO_PATH` to point to your `flamingo-node` directory and run via Docker Compose:
 
 ```bash
-FLAMINGO_PATH=../flamingo-node docker compose up --build
+FLAMINGO_PATH=../flamingo-node docker compose -f docker-compose.json up --build
 ```
 
 Stop:
 ```bash
-docker compose down
-```
-
-### Option B: Node.js CLI (no Docker knowledge needed)
-
-If you have Node.js installed, the `fw` CLI handles everything automatically — it resolves `FLAMINGO_PATH` dynamically, so no env var is needed:
-
-```bash
-npm install -g flamingo-node
-fw init .       # Generate default env.json
-fw up           # Installs Docker if needed, builds & runs
-fw down         # Stops & removes the container
-fw logs         # Tail container logs
+docker compose -f docker-compose.json down
 ```
 
 ## Ports
@@ -57,6 +43,5 @@ Edit `env.docker.json` to customize paths, RPC credentials, and ports.
 ## Related Repositories
 
 - [flamingo-node](https://github.com/playproject-io/flamingo-node) — Backend: bitcoind, lightningd, WebSocket bridge
-- [flamingo-docker](https://github.com/playproject-io/flamingo-docker) — Docker environment for the stack
 - [flamingo-wallet](https://github.com/playproject-io/flamingo-wallet) — Main entry point & orchestration
 - [flamingo-ui](https://github.com/playproject-io/flamingo-ui) — Reusable UI component library
